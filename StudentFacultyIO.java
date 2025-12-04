@@ -359,27 +359,35 @@ public class StudentFacultyIO
 					}
 					else
 						System.out.println("Invalid option, please try again");
+					readFlag = true;
 				}
 				else if (option.equals("Search") || option.equals("search")) // data search - search inside array that was created from data reading
 				{
-					System.out.print("Please select the the type of data to search for (Student/Faculty): ");
-					option2 = input.nextLine();
-					int studentSize = arraySize(studentFile);
-					int facultySize = arraySize(facultyFile);
-					if (option2.equals("Student") || option2.equals("student"))
+					if (readFlag)
 					{
-						System.out.print("Please enter the ID of the student to search for: ");
-						searchID = input.nextInt();
-						System.out.println("The student with ID " + searchID + ((searchStudent(students, studentSize, searchID) ? " was " : " wasn't ") + "found in the array."));
-					}
-					else if (option2.equals("Faculty") || option2.equals("faculty"))
-					{
-						System.out.print("Please enter the ID of the faculty member to search for: ");
-						searchID = input.nextInt();
-						System.out.println("The faculty member with ID " + searchID + ((searchFaculty(faculty, facultySize, searchID) ? " was " : " wasn't ") + "found in the array."));
+						System.out.print("Please select the the type of data to search for (Student/Faculty): ");
+						option2 = input.nextLine();
+						int studentSize = arraySize(studentFile);
+						int facultySize = arraySize(facultyFile);
+						if (option2.equals("Student") || option2.equals("student"))
+						{
+							System.out.print("Please enter the ID of the student to search for: ");
+							searchID = input.nextInt();
+							System.out.println("The student with ID " + searchID + ((searchStudent(students, studentSize, searchID) ? " was " : " wasn't ") + "found in the array."));
+						}
+						else if (option2.equals("Faculty") || option2.equals("faculty"))
+						{
+							System.out.print("Please enter the ID of the faculty member to search for: ");
+							searchID = input.nextInt();
+							System.out.println("The faculty member with ID " + searchID + ((searchFaculty(faculty, facultySize, searchID) ? " was " : " wasn't ") + "found in the array."));
+						}
+						else
+							System.out.println("Invalid option, please try again");
 					}
 					else
-						System.out.println("Invalid option, please try again");
+					{
+						System.out.println("Invalid option, please store data using the 'Read' before searching");
+					}
 				}
 				else if (option.equals("Quit") || option.equals("quit"))
 				{

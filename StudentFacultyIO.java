@@ -4,7 +4,7 @@ import java.util.*;
 
 public class StudentFacultyIO
 {
-	// 5.1
+	// question 5.1
 	public static Student createStudent(String first, String last, String address, int SSN, int phone, String email, int ID, double GPA, String status) // input student data
 	{
 		Student stu1 = new Student();
@@ -32,7 +32,7 @@ public class StudentFacultyIO
 		fac1.setDepartment(department);
 		return fac1;
 	}
-	// 5.3
+	// question 5.3
 	public static int arraySize(File file) throws IOException // initialize arrays to store data from file
 	{
 		// determining size for student array
@@ -208,7 +208,7 @@ public class StudentFacultyIO
 		}
 		return fac;
 	}
-	//5.4
+	// question 5.4
 	public static boolean searchStudent(Student stu[], int size, int ID) // searching from a student array
 	{
 		boolean flag = false;
@@ -235,44 +235,160 @@ public class StudentFacultyIO
 	}
 	public static void main (String args[]) throws IOException
 	{
-		// part 5.1
-		Student stu1 = createStudent("John", "Smith", "New York City", 123456789, 1234567890, "John.Smith@email.com", 1, 3.7, "Freshman");
-		
-		Student stu2 = createStudent("James", "Brown", "San Francisco", 111111111, 1231111111, "James.Brown@email.com", 2, 2.9, "Sophomore");
-		
-		Faculty fac1 = createFaculty("Mary", "Garcia", "Miami", 222222222, 1232222222, "Mary.Garcia@email.com", 1, "Math");
-		fac1.addCourse("MATH 100");
-		fac1.addCourse("MATH 200");
-		fac1.addCourse("MATH 201");
-		
-		Faculty fac2 = createFaculty("Jennifer", "Green", "Austin", 333333333, 1233333333, "Jennifer.Green@email.com", 2, "English");
-		fac2.addCourse("ENGL 100");
-		fac2.addCourse("ENGL 150");
-		fac2.addCourse("ENGL 200");
-
+		// question 6
 		try
 		{
-			// part 5.2
-			stu1.writeToFile();
-			stu2.writeToFile();
-			fac1.writeToFile();
-			fac2.writeToFile();
-			
-			// part 5.3
+			Student students[] = null;
+			Faculty faculty[] = null;
 			File studentFile = new File("Student.txt");
 			File facultyFile = new File("Faculty.txt");
-			// read from file and store into array
-			Student stu[] = studentReadFromFile(studentFile);
-			Faculty fac[] = facultyReadFromFile(facultyFile);
-
-			// part 5.4
-			int studentSize = arraySize(studentFile);
-			int facultySize = arraySize(facultyFile);
-			// search for student/faculty with a particular ID inside the array
-			System.out.println("The Student with ID 1 " + ((searchStudent(stu, studentSize, 1) ? "was " : "wasn't ") + "found in the array."));
-			System.out.println("The Student with ID 3 " + ((searchStudent(stu, studentSize, 3) ? "was " : "wasn't ") + "found in the array."));
-			System.out.println("The Faculty with ID 2 " + ((searchFaculty(fac, facultySize, 2) ? "was " : "wasn't ") + "found in the array."));
-			System.out.println("The Faculty with ID 5 " + ((searchFaculty(fac, facultySize, 5) ? "was " : "wasn't ") + "found in the array."));
+			String option = "X";
+			String option2 = "X";
+			String option3 = "X";
+			int searchID = -1;
+			Scanner input = new Scanner(System.in);
+			boolean readFlag = false;
+			while (!option.equals("quit") || !option.equals("Quit"))
+			{
+				System.out.print("Please enter an option (Read/Write/Search/Quit): ");
+				option = input.nextLine();
+				if (option.equals("Write") || option.equals("write")) // data input - have user input data, store it into a student object, and write it to file
+				{
+					String firstName = "X";
+					String lastName = "X";
+					String address = "X";
+					int SSN = -1;
+					int phone = -1;
+					String email = "X";
+					System.out.print("Please select the the type of data to record (Student/Faculty): ");
+					option2 = input.nextLine();
+					if (option2.equals("Student") || option2.equals("student"))
+					{
+						int studentID = -1;
+						double GPA = -1.0;
+						String status = "X";
+						System.out.println("Please enter the following: ");
+						System.out.print("First Name: ");
+						firstName = input.nextLine();
+						System.out.print("Last Name: ");
+						lastName = input.nextLine();
+						System.out.print("Address: ");
+						address = input.nextLine();
+						System.out.print("SSN: ");
+						SSN = Integer.parseInt(input.nextLine()); // nextInt() does not go to next line automatically
+						System.out.print("Phone Number: ");
+						phone = Integer.parseInt(input.nextLine());
+						System.out.print("Email: ");
+						email = input.nextLine();
+						System.out.print("Student ID: ");
+						studentID = Integer.parseInt(input.nextLine());
+						System.out.print("GPA: ");
+						GPA = Double.parseDouble(input.nextLine());
+						System.out.print("Status: ");
+						status = input.nextLine();
+						Student tmpStudent = createStudent(firstName, lastName, address, SSN, phone, email, studentID, GPA, status);
+						tmpStudent.writeToFile();
+					}
+					else if (option2.equals("Faculty") || option2.equals("faculty"))
+					{
+						int facultyID = -1;
+						String department = "X";
+						String status = "X";
+						System.out.println("Please enter the following: ");
+						System.out.print("First Name: ");
+						firstName = input.nextLine();
+						System.out.print("Last Name: ");
+						lastName = input.nextLine();
+						System.out.print("Address: ");
+						address = input.nextLine();
+						System.out.print("SSN: ");
+						SSN = Integer.parseInt(input.nextLine());
+						System.out.print("Phone Number: ");
+						phone = Integer.parseInt(input.nextLine());
+						System.out.print("Email: ");
+						email = input.nextLine();
+						System.out.print("Faculty ID: ");
+						facultyID = Integer.parseInt(input.nextLine());
+						System.out.print("Department: ");
+						department = input.nextLine();
+						String course = "X";
+						Faculty tmpFaculty = createFaculty(firstName, lastName, address, SSN, phone, email, facultyID, department);
+						int courseTally = 0;
+						while (!option3.equals("Quit") || !option3.equals("quit"))
+						{
+							System.out.print("Please enter an option for courses (Add/Remove/Quit): ");
+							option3 = input.nextLine();
+							if (option3.equals("Add") || option3.equals("add"))
+							{
+								System.out.print("Please enter a course to add: ");
+								course = input.nextLine();
+								tmpFaculty.addCourse(course);
+							}
+							else if (option3.equals("Remove") || option3.equals("remove"))
+							{
+								System.out.print("Please enter the course to remove: ");
+								course = input.nextLine();
+								tmpFaculty.removeCourse(course);
+							}
+							else if (option3.equals("Quit") || option3.equals("quit"))
+							{
+								tmpFaculty.writeToFile();
+								System.out.println("Done");
+								break;
+							}
+							else
+								System.out.println("Invalid option, please try again");
+						}
+					}
+					else
+						System.out.println("Invalid option, please try again");
+				}
+				else if (option.equals("Read") || option.equals("read")) // data reading - store data from file into an array to later use for searching
+				{
+					System.out.print("Please select the the type of data to read (Student/Faculty): ");
+					option2 = input.nextLine();
+					if (option2.equals("Student") || option2.equals("student"))
+					{
+						students = studentReadFromFile(studentFile);
+						System.out.println("Data successfully read");
+					}
+					else if (option2.equals("Faculty") || option2.equals("faculty"))
+					{
+						faculty = facultyReadFromFile(facultyFile);
+						System.out.println("Data successfully read");
+					}
+					else
+						System.out.println("Invalid option, please try again");
+				}
+				else if (option.equals("Search") || option.equals("search")) // data search - search inside array that was created from data reading
+				{
+					System.out.print("Please select the the type of data to search for (Student/Faculty): ");
+					option2 = input.nextLine();
+					int studentSize = arraySize(studentFile);
+					int facultySize = arraySize(facultyFile);
+					if (option2.equals("Student") || option2.equals("student"))
+					{
+						System.out.print("Please enter the ID of the student to search for: ");
+						searchID = input.nextInt();
+						System.out.println("The student with ID " + searchID + ((searchStudent(students, studentSize, searchID) ? " was " : " wasn't ") + "found in the array."));
+					}
+					else if (option2.equals("Faculty") || option2.equals("faculty"))
+					{
+						System.out.print("Please enter the ID of the faculty member to search for: ");
+						searchID = input.nextInt();
+						System.out.println("The faculty member with ID " + searchID + ((searchFaculty(faculty, facultySize, searchID) ? " was " : " wasn't ") + "found in the array."));
+					}
+					else
+						System.out.println("Invalid option, please try again");
+				}
+				else if (option.equals("Quit") || option.equals("quit"))
+				{
+					System.out.println("Done");
+					break;
+				}
+				else
+					System.out.println("Invalid option, please try again");
+			}
 		}
 		catch (IOException exception)
 		{
@@ -280,4 +396,3 @@ public class StudentFacultyIO
 		}
 	}
 }
-
